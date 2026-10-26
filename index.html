@@ -1,97 +1,114 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="ru">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>Заточка в Кемерово — 20 декабря</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- iOS Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Заточка" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="theme-color" content="#7c3aed" />
+
+    <!-- Favicon SVG -->
+    <link rel="icon" type="image/svg+xml" href="/icons/icon.svg" />
+    <link rel="apple-touch-icon" href="/icons/icon.svg" />
+
+    <!-- Dynamic PNG icon generation for iOS -->
+    <script>
+      (function() {
+        function generatePNGIcon() {
+          var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">' +
+            '<defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">' +
+            '<stop offset="0%" style="stop-color:#1a0533"/><stop offset="50%" style="stop-color:#2d1b69"/>' +
+            '<stop offset="100%" style="stop-color:#0f0520"/></linearGradient>' +
+            '<linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">' +
+            '<stop offset="0%" style="stop-color:#fbbf24"/><stop offset="100%" style="stop-color:#f59e0b"/>' +
+            '</linearGradient></defs>' +
+            '<rect width="512" height="512" rx="96" fill="url(#bg)"/>' +
+            '<g transform="translate(256,280)">' +
+            '<ellipse cx="0" cy="30" rx="70" ry="85" fill="url(#g)" opacity="0.9"/>' +
+            '<ellipse cx="0" cy="-30" rx="50" ry="60" fill="url(#g)" opacity="0.9"/>' +
+            '<circle cx="0" cy="30" r="18" fill="#1a0533"/>' +
+            '<rect x="-8" y="-180" width="16" height="160" rx="4" fill="url(#g)" opacity="0.9"/>' +
+            '<rect x="-14" y="-210" width="28" height="35" rx="6" fill="url(#g)" opacity="0.9"/>' +
+            '</g></svg>';
+
+          var canvas = document.createElement('canvas');
+          canvas.width = 180;
+          canvas.height = 180;
+          var ctx = canvas.getContext('2d');
+          var img = new Image();
+          var blob = new Blob([svg], {type: 'image/svg+xml'});
+          var url = URL.createObjectURL(blob);
+
+          img.onload = function() {
+            ctx.drawImage(img, 0, 0, 180, 180);
+            URL.revokeObjectURL(url);
+            var pngUrl = canvas.toDataURL('image/png');
+
+            // Set as apple-touch-icon
+            var link = document.querySelector('link[rel="apple-touch-icon"]');
+            if (link) {
+              link.setAttribute('href', pngUrl);
+              link.setAttribute('type', 'image/png');
+            }
+
+            // Also create additional sizes
+            [152, 167, 180].forEach(function(size) {
+              var c = document.createElement('canvas');
+              c.width = size;
+              c.height = size;
+              var cx = c.getContext('2d');
+              cx.drawImage(img, 0, 0, size, size);
+              var l = document.createElement('link');
+              l.rel = 'apple-touch-icon';
+              l.sizes = size + 'x' + size;
+              l.href = c.toDataURL('image/png');
+              document.head.appendChild(l);
+            });
+          };
+          img.src = url;
+        }
+
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', generatePNGIcon);
+        } else {
+          generatePNGIcon();
+        }
+      })();
+    </script>
+
     <style>
-      /* 内联样式确保主题色立即生效，避免闪烁 */
-      html,
-      body {
+      html, body {
         margin: 0;
         padding: 0;
         width: 100%;
         height: 100%;
-      }
-      html.light,
-      html.light body {
-        background-color: #ffffff !important;
-        color: #000000;
-      }
-      html.dark,
-      html.dark body {
-        background-color: #1a1a1a !important;
-        color: #ffffff;
+        background-color: #0f0520;
       }
     </style>
-    <script>
-      // 在 React 加载前立即设置主题，避免闪烁
-      (function () {
-        const isInIframe = window.self !== window.top;
-
-        function applyThemeToDOM(theme) {
-          document.documentElement.classList.remove("light", "dark");
-          document.documentElement.classList.add(theme);
-          document.documentElement.setAttribute("data-theme", theme);
-        }
-
-        if (isInIframe) {
-          // 监听父窗口主动推送的主题消息
-          window.addEventListener("message", function (event) {
-            if (event.data && typeof event.data.theme === "string") {
-              const theme = event.data.theme;
-              if (theme === "light" || theme === "dark") {
-                applyThemeToDOM(theme);
-              }
-            }
-          });
-        } else {
-          // 非 iframe 环境，使用默认 light 主题
-          applyThemeToDOM("light");
-        }
-      })();
-    </script>
-      <script>
-      (function () {
-        if (window.self === window.top) return;
-        var reported = {};
-        window.addEventListener("error", function (event) {
-          // 资源加载失败的 error 事件没有 message，此处仅上报 JS 运行时错误
-          if (!event || !event.message) return;
-          var key =
-            event.message + "|" + (event.filename || "") + "|" + (event.lineno || 0);
-          if (reported[key]) return; // 相同错误只上报一次，避免渲染循环刷屏
-          reported[key] = true;
-          try {
-            window.parent.postMessage(
-              {
-                type: "sandbox-runtime-error",
-                payload: {
-                  message: String(event.message).slice(0, 500),
-                  filename: event.filename || "",
-                  lineno: event.lineno || 0,
-                  colno: event.colno || 0,
-                  stack:
-                    event.error && event.error.stack
-                      ? String(event.error.stack).slice(0, 2000)
-                      : ""
-                }
-              },
-              "*"
-            );
-          } catch (e) {
-            /* 上报失败不影响页面运行 */
-          }
-        });
-      })();
-    </script>
   </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+    <script type="module" src="/src/main.tsx"></script>
+
+    <!-- Service Worker Registration -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/sw.js').then(function(reg) {
+            console.log('SW registered:', reg.scope);
+          }).catch(function(err) {
+            console.log('SW registration failed:', err);
+          });
+        });
+      }
+    </script>
   </body>
 </html>

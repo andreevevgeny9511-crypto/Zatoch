@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a0533"/>
+      <stop offset="50%" style="stop-color:#2d1b69"/>
+      <stop offset="100%" style="stop-color:#0f0520"/>
+    </linearGradient>
+    <linearGradient id="guitar" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#fbbf24"/>
+      <stop offset="100%" style="stop-color:#f59e0b"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <rect width="512" height="512" rx="96" fill="url(#bg)"/>
+  <!-- Guitar body -->
+  <g filter="url(#glow)" transform="translate(256,280)">
+    <ellipse cx="0" cy="30" rx="70" ry="85" fill="url(#guitar)" opacity="0.9"/>
+    <ellipse cx="0" cy="-30" rx="50" ry="60" fill="url(#guitar)" opacity="0.9"/>
+    <circle cx="0" cy="30" r="18" fill="#1a0533"/>
+    <!-- Neck -->
+    <rect x="-8" y="-180" width="16" height="160" rx="4" fill="url(#guitar)" opacity="0.9"/>
+    <!-- Headstock -->
+    <rect x="-14" y="-210" width="28" height="35" rx="6" fill="url(#guitar)" opacity="0.9"/>
+    <!-- Tuning pegs -->
+    <circle cx="-18" cy="-200" r="4" fill="#fbbf24"/>
+    <circle cx="-18" cy="-188" r="4" fill="#fbbf24"/>
+    <circle cx="18" cy="-200" r="4" fill="#fbbf24"/>
+    <circle cx="18" cy="-188" r="4" fill="#fbbf24"/>
+  </g>
+  <!-- Stars -->
+  <circle cx="100" cy="100" r="3" fill="#fbbf24" opacity="0.7"/>
+  <circle cx="400" cy="80" r="2" fill="#fbbf24" opacity="0.5"/>
+  <circle cx="80" cy="400" r="2" fill="#fbbf24" opacity="0.6"/>
+  <circle cx="430" cy="350" r="3" fill="#fbbf24" opacity="0.4"/>
+  <circle cx="350" cy="450" r="2" fill="#fbbf24" opacity="0.5"/>
+  <circle cx="150" cy="60" r="2" fill="#a78bfa" opacity="0.6"/>
+</svg>
